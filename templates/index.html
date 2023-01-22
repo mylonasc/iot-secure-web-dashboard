@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<h1>Super secret control center.</h1>
+
+{% if user %}
+<h2>Claims:</h2>
+<pre>{{ user |tojson(indent=4) }}</pre>
+
+{#
+{% if config.get("ENDPOINT") %}
+<li><a href='/graphcall'>Call Microsoft Graph API</a></li>
+{% endif %}
+#}
+
+{% if config.get("B2C_PROFILE_AUTHORITY") %}
+<li><a href='{{_build_auth_code_flow(authority=config["B2C_PROFILE_AUTHORITY"])["auth_uri"]}}'>Edit Profile</a></li>
+{% endif %}
+
+<li><a href="/logout">Logout</a></li>
+
+{% else %}
+<li><a href='{{ auth_url }}'>Sign In</a></li>
+{% endif %}
+
+{% endblock %}
